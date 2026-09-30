@@ -1,0 +1,27 @@
+{
+  "hosting": {
+    "public": "client/dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "predeploy": ["npm --prefix client run build"],
+    "headers": [
+      {
+        "source": "/admin{,/**}",
+        "headers": [
+          { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+          { "key": "Cache-Control", "value": "private, no-store" }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/api{,/**}",
+        "run": { "serviceId": "innovation-api", "region": "asia-south1" }
+      },
+      {
+        "source": "/uploads{,/**}",
+        "run": { "serviceId": "innovation-api", "region": "asia-south1" }
+      },
+      { "source": "**", "destination": "/index.html" }
+    ]
+  }
+}
